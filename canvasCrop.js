@@ -206,73 +206,57 @@ var canvasCrop = function(idCanvas,idTarget){
 
             // si mueve en X no mueve en Y y viceversa
             n1.x = eX;
-           // n1.y = eY;
+            n1.y = n2.y;
 
-            // node 4 position
-            n4.x = n1.x;
-            n4.y = n1.y + distance(n1.x,n1.y,n2.x,n2.y) * 1/pixel_ratio;
-
-            // node 3 position
-            n3.y = n4.y;
 
             // node 2 position
-            n2.y = n1.y;
+            n2.y = n4.y - distance(n1.x,n1.y,n2.x,n2.y) * 1/pixel_ratio;
 
             draw();
         }
 
         else if (n2.drag && distance(eX, eY,n1.x,n1.y)>20 && distance(eX, eY,n3.x,n3.y)>20){
             n2.x = eX;
-          //  n2.y = eY;
+            n2.y = n1.y;
 
 
             // node 3 position
             n3.x = n2.x;
-            n3.y = n2.y + distance(n2.x,n2.y,n1.x,n1.y) * 1/pixel_ratio;
+            n1.y = n4.y - distance(n2.x,n2.y,n1.x,n1.y) * 1/pixel_ratio;
 
-            //console.log("x: "+n3.x+" y:"+n3.y);
 
-            // node 1 position
-            n1.y = n2.y;
-
-            // node 4 position
-            n4.y = n3.y;
 
             draw();
         }
 
         else if (n3.drag && distance(eX, eY,n2.x,n2.y)>20 && distance(eX, eY,n4.x,n4.y)>20){
-          //  n3.x = eX;
-            n3.y = eY;
+            n3.x = eX;
+
+            n3.y = n4.y;
+
+            n2.x = n3.x;
 
             // node 4 position
-            n4.x = n3.x - distance(n2.x,n2.y,n3.x,n3.y) * pixel_ratio;
-            n4.y = n3.y;
+            n4.y = n1.y + distance(n4.x,n4.y,n3.x,n3.y) * 1/pixel_ratio;
 
 
-            // node 1 position
-            n1.x = n4.x;
 
-            // node 2 position
-            n2.x = n3.x;
+
             draw();
         }
 
         else if (n4.drag && distance(eX, eY,n1.x,n1.y)>20 && distance(eX, eY,n3.x,n3.y)>20){
             n4.x = eX;
            // n4.y = eY;
+            n4.y = n3.y;
 
 
-            // node 1 position
-            n1.y = n4.y - distance(n4.x,n4.y,n3.x,n3.y) * 1/pixel_ratio;
             n1.x = n4.x;
 
-            // node 3 position
-            n3.y = n4.y;
+            // node 1 position
+            n3.y = n2.y + distance(n4.x,n4.y,n3.x,n3.y) * 1/pixel_ratio;
 
-            // node 2 position
 
-            n2.y = n1.y;
 
             draw();
         }
