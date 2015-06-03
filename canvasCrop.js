@@ -204,7 +204,7 @@ var canvasCrop = function(idCanvas,idTarget){
         console.log(n1.distance_to(n2.x,n2.y));
         if (n1.drag && distance(eX, eY,n2.x,n2.y)>20 && distance(eX, eY,n3.x,n3.y)>20){
 
-
+            // si mueve en X no mueve en Y y viceversa
             n1.x = eX;
            // n1.y = eY;
 
