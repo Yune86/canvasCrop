@@ -14,6 +14,7 @@ var canvasCrop = function(idCanvas,idTarget){
     var rectW = 10;
     var rectH = 10;
     var target = document.getElementById(idTarget);
+    var pixel_ratio = 1.77;
 
 
     var node = function(x,y){
@@ -49,9 +50,20 @@ var canvasCrop = function(idCanvas,idTarget){
     var newh;
     var newW;
 
-    
+    function drawSelection(x,y,w,h){
+        n1.set(x,y);
+        n2.set(x+w,y);
+        n3.set(x+w,y+h);
+        n4.set(x,y+h);
+        draw();
+    }
+    function setPixelRatio(ratio){
+        pixel_ratio = ratio;
+        var w = distance(n1.x,n1.y,n2.x,n2.y);
+        drawSelection(n1.x,n1.y,w,w/ratio);
 
-    
+    }
+
     image.onload = function () {
         // Adaptar canvas a la imagen
         var maxHeight = screen.height - 37 * screen.height / 100;
@@ -78,10 +90,6 @@ var canvasCrop = function(idCanvas,idTarget){
 
         // Posicionar rectangulo
 
-        n1.set(10,10);
-        n2.set(150,10);
-        n3.set(150,150);
-        n4.set(10,150);
 
 
         // Dibujar imagen
@@ -92,13 +100,18 @@ var canvasCrop = function(idCanvas,idTarget){
         if (image.width > ct.canvas.width || image.height > ct.canvas.height){
             image.src = canvas.toDataURL();
         }else{
+            n1.set(10,10);
+            n2.set(150,10);
+            n3.set(150,150);
+            n4.set(10,150);
+            setPixelRatio(pixel_ratio);
             draw();
         }
 
 
     };
-    
-    
+
+
     function draw(){
         console.log("Dibuja joder");
         // Borramos todo
@@ -142,7 +155,7 @@ var canvasCrop = function(idCanvas,idTarget){
     var hover = false;
     var drag = true;
     var AuxX,AuxY;
-    document.onmousedown = function(e){
+    canvas.onmousedown = function(e){
 
         console.log("Drag Request");
         if (n1.hover){ n1.drag = true; }
@@ -181,8 +194,7 @@ var canvasCrop = function(idCanvas,idTarget){
         offsetY = rect.top;
         var eX = e.clientX - offsetX;
         var eY = e.clientY - offsetY;
-
-        // sobre x1y1  
+        // sobre x1y1
         if (n1.is_hover(e)){ n1.hover = true; }
         if (n2.is_hover(e)){ n2.hover = true; }
         if (n3.is_hover(e)){ n3.hover = true; }
@@ -190,41 +202,78 @@ var canvasCrop = function(idCanvas,idTarget){
 
 
         console.log(n1.distance_to(n2.x,n2.y));
-        if (n1.drag && distance(eX, eY,n2.x,n2.y)>150 && distance(eX, eY,n3.x,n3.y)>150){
+        if (n1.drag && distance(eX, eY,n2.x,n2.y)>150 && distance(eX, eY,n3.x,n3.y)>20){
 
 
             n1.x = eX;
             n1.y = eY;
 
-            n2.y = n1.y;
+            // node 4 position
             n4.x = n1.x;
+            n4.y = n1.y + distance(n1.x,n1.y,n2.x,n2.y) * 1/pixel_ratio;
+
+            // node 3 position
+            n3.y = n4.y;
+
+            // node 2 position
+            n2.y = n1.y;
+
             draw();
         }
 
-        else if (n2.drag && distance(eX, eY,n1.x,n1.y)>150 && distance(eX, eY,n3.x,n3.y)>150){
+        else if (n2.drag && distance(eX, eY,n1.x,n1.y)>150 && distance(eX, eY,n3.x,n3.y)>20){
             n2.x = eX;
             n2.y = eY;
 
-            n1.y = n2.y;
+
+            // node 3 position
             n3.x = n2.x;
+            n3.y = n2.y + distance(n2.x,n2.y,n1.x,n1.y) * 1/pixel_ratio;
+
+            //console.log("x: "+n3.x+" y:"+n3.y);
+
+            // node 1 position
+            n1.y = n2.y;
+
+            // node 4 position
+            n4.y = n3.y;
+
             draw();
         }
 
-        else if (n3.drag && distance(eX, eY,n2.x,n2.y)>150 && distance(eX, eY,n4.x,n4.y)>150){
+        else if (n3.drag && distance(eX, eY,n2.x,n2.y)>150 && distance(eX, eY,n4.x,n4.y)>20){
             n3.x = eX;
             n3.y = eY;
 
+            // node 4 position
+            n4.x = n3.x - distance(n2.x,n2.y,n3.x,n3.y) * pixel_ratio;
             n4.y = n3.y;
+
+
+            // node 1 position
+            n1.x = n4.x;
+
+            // node 2 position
             n2.x = n3.x;
             draw();
         }
 
-        else if (n4.drag && distance(eX, eY,n1.x,n1.y)>150 && distance(eX, eY,n3.x,n3.y)>150){
+        else if (n4.drag && distance(eX, eY,n1.x,n1.y)>150 && distance(eX, eY,n3.x,n3.y)>20){
             n4.x = eX;
             n4.y = eY;
 
-            n3.y = n4.y;
+
+            // node 1 position
+            n1.y = n4.y - distance(n4.x,n4.y,n3.x,n3.y) * 1/pixel_ratio;
             n1.x = n4.x;
+
+            // node 3 position
+            n3.y = n4.y;
+
+            // node 2 position
+
+            n2.y = n1.y;
+
             draw();
         }
         else if(eX>n1.x && eX <n2.x && eY > n1.y && eY < n3.y){
@@ -294,6 +343,10 @@ var canvasCrop = function(idCanvas,idTarget){
             render(idTarget);
 
 
+        },
+        setPixelRatio: function(ratio){
+
+            setPixelRatio(ratio);
         }
 
     }
@@ -302,6 +355,7 @@ var canvasCrop = function(idCanvas,idTarget){
 
 
 var crop = new canvasCrop('canvas','preview');
-
-//crop.load("https://i.ytimg.com/vi/SzMR3NUcPgQ/default.jpg");
-crop.listener('imagen');
+crop.setPixelRatio(1.77);
+crop.load("idea3.png");
+//crop.load('https://www.apple.com/v/imac-with-retina/a/images/overview/5k_image.jpg');
+//crop.listener('imagen');

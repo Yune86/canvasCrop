@@ -11,10 +11,17 @@
 
     <body>
     <div style="width: 100%;position: fixed;top: 0;left: 0;height: 100%">
-        <div style="height: 8%;background-color: silver">Menu 1 <input id="imagen" type="file"></div>
+        <div style="height: 8%;background-color: silver">
+            <select id="pixelratio">
+                <option value="1.77">16:9</option>
+                <option value="1">4:4</option>
+            </select>
+            <input id="imagen" type="file">
+
+        </div>
         <div style="background-color: beige;height: 70%;text-align: center;overflow-y: auto">
-            <div style="padding: 10px;">
-            <canvas id="canvas"></canvas>
+            <div style="">
+                <canvas id="canvas"></canvas>
             </div>
         </div>
         <div style="background-color: silver;height: 22%">
@@ -24,6 +31,12 @@
 
         
         <script src="canvasCrop.js"></script>
+        <script>
+            var selectRatio = document.getElementById('pixelratio');
+            selectRatio.onchange = function(e){
+                crop.setPixelRatio(e.srcElement.value);
+            };
+        </script>
     </div>
     </body>
     
