@@ -32,6 +32,12 @@
         
         <script src="canvasCrop.js"></script>
         <script>
+            var crop = new canvasCrop('canvas','preview');
+            crop.setPixelRatio(1.77);
+            //crop.load("idea3.png");
+            //crop.load('https://www.apple.com/v/imac-with-retina/a/images/overview/5k_image.jpg');
+            crop.listener('imagen');
+
             var selectRatio = document.getElementById('pixelratio');
             selectRatio.onchange = function(e){
                 crop.setPixelRatio(e.srcElement.value);

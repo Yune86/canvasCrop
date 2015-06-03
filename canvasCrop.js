@@ -354,8 +354,3 @@ var canvasCrop = function(idCanvas,idTarget){
 
 
 
-var crop = new canvasCrop('canvas','preview');
-crop.setPixelRatio(1.77);
-crop.load("idea3.png");
-//crop.load('https://www.apple.com/v/imac-with-retina/a/images/overview/5k_image.jpg');
-//crop.listener('imagen');
