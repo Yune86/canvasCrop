@@ -208,6 +208,7 @@ var canvasCrop = function(idCanvas,idTarget){
             n1.x = eX;
             n1.y = n2.y;
 
+            n4.x = n1.x;
 
             // node 2 position
             n2.y = n4.y - distance(n1.x,n1.y,n2.x,n2.y) * 1/pixel_ratio;
