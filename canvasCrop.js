@@ -195,18 +195,18 @@ var canvasCrop = function(idCanvas,idTarget){
         var eX = e.clientX - offsetX;
         var eY = e.clientY - offsetY;
         // sobre x1y1
-        if (n1.is_hover(e)){ n1.hover = true; }
-        if (n2.is_hover(e)){ n2.hover = true; }
-        if (n3.is_hover(e)){ n3.hover = true; }
-        if (n4.is_hover(e)){ n4.hover = true; }
+        if (n1.is_hover(e)){ n1.hover = true; }else{ n1.hover = false }
+        if (n2.is_hover(e)){ n2.hover = true; }else{ n2.hover = false }
+        if (n3.is_hover(e)){ n3.hover = true; }else{ n3.hover = false }
+        if (n4.is_hover(e)){ n4.hover = true; }else{ n4.hover = false }
 
 
         console.log(n1.distance_to(n2.x,n2.y));
-        if (n1.drag && distance(eX, eY,n2.x,n2.y)>150 && distance(eX, eY,n3.x,n3.y)>20){
+        if (n1.drag && distance(eX, eY,n2.x,n2.y)>20 && distance(eX, eY,n3.x,n3.y)>20){
 
 
             n1.x = eX;
-            n1.y = eY;
+           // n1.y = eY;
 
             // node 4 position
             n4.x = n1.x;
@@ -221,9 +221,9 @@ var canvasCrop = function(idCanvas,idTarget){
             draw();
         }
 
-        else if (n2.drag && distance(eX, eY,n1.x,n1.y)>150 && distance(eX, eY,n3.x,n3.y)>20){
+        else if (n2.drag && distance(eX, eY,n1.x,n1.y)>20 && distance(eX, eY,n3.x,n3.y)>20){
             n2.x = eX;
-            n2.y = eY;
+          //  n2.y = eY;
 
 
             // node 3 position
@@ -241,8 +241,8 @@ var canvasCrop = function(idCanvas,idTarget){
             draw();
         }
 
-        else if (n3.drag && distance(eX, eY,n2.x,n2.y)>150 && distance(eX, eY,n4.x,n4.y)>20){
-            n3.x = eX;
+        else if (n3.drag && distance(eX, eY,n2.x,n2.y)>20 && distance(eX, eY,n4.x,n4.y)>20){
+          //  n3.x = eX;
             n3.y = eY;
 
             // node 4 position
@@ -258,9 +258,9 @@ var canvasCrop = function(idCanvas,idTarget){
             draw();
         }
 
-        else if (n4.drag && distance(eX, eY,n1.x,n1.y)>150 && distance(eX, eY,n3.x,n3.y)>20){
+        else if (n4.drag && distance(eX, eY,n1.x,n1.y)>20 && distance(eX, eY,n3.x,n3.y)>20){
             n4.x = eX;
-            n4.y = eY;
+           // n4.y = eY;
 
 
             // node 1 position
@@ -297,6 +297,7 @@ var canvasCrop = function(idCanvas,idTarget){
             }
         }else{
             hover = false;
+
         }
 
        // console.log("X: "+n1.x+" < "+eX+ " < " + n2.x);
